@@ -23,7 +23,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 
 # Install Composer globally
 RUN curl --silent --show-error https://getcomposer.org/installer | php
-RUN composer --version
 
 # Copy the Laravel application files to the container
 COPY . .
