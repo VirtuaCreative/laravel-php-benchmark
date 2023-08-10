@@ -22,7 +22,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql
 
 # Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl --silent --show-error https://getcomposer.org/installer | php
+RUN composer --version
 
 # Copy the Laravel application files to the container
 COPY . .
