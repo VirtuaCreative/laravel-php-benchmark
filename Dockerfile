@@ -28,12 +28,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 RUN mkdir -p bootstrap/cache/
 RUN chmod -R 777 bootstrap/cache/
-RUN composer update
-RUN cache:clear
 
 # Copy the Laravel application files to the container
 WORKDIR /app
-COPY . .
+COPY . /app
+
+# Update composer
+RUN composer update
+RUN cache:clear
 
 # Install application dependencies
 RUN composer install
