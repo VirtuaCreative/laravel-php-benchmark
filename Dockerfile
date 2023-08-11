@@ -25,14 +25,18 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 RUN curl -sS https://getcomposer.org/installer | php -- \
 --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer 
 # COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-# RUN sudo chmod -R 777 bootstrap/cache/
+
+RUN mkdir -p bootstrap/cache/
+RUN chmod -R 777 bootstrap/cache/
+RUN composer update
+RUN cache:clear
 
 # Copy the Laravel application files to the container
 WORKDIR /app
 COPY . .
 
 # Install application dependencies
-RUN php /usr/bin/composer install
+RUN composer install
 
 # Set permissions for Laravel directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
