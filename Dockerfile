@@ -4,6 +4,10 @@ FROM php:8.1-fpm
 # Set the working directory inside the container
 # WORKDIR /var/www/html
 
+# Copy the Laravel application files to the container
+WORKDIR /app
+COPY . .
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpng-dev \
@@ -28,12 +32,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 RUN mkdir -p bootstrap/cache/
 RUN chmod -R 777 bootstrap/cache/
-
-# Copy the Laravel application files to the container
-WORKDIR /app
-COPY . /app
-
-# Update composer
 RUN composer update
 RUN cache:clear
 
